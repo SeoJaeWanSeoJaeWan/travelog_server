@@ -17,6 +17,7 @@ public class LogDaysDto {
     public LogDaysDto(Day day) {
         this.index = day.getIndex();
         this.pins = day.getPins().stream()
+                .sorted((p1,p2) -> Integer.compare(p1.getIndex(), p2.getIndex()))
                 .map(LogPinsDto::new)
                 .collect(Collectors.toSet());
     }

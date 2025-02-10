@@ -1,10 +1,13 @@
 package com.travel.travelog_server.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.travel.travelog_server.dto.Index;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="pins")
@@ -49,6 +52,10 @@ public class Pin implements Index {
     @ManyToOne
     @JoinColumn(name="priceTypeId")
     private PriceType priceType;
+
+    @OneToMany(mappedBy="pin", cascade=CascadeType.REMOVE,fetch=FetchType.LAZY)
+    @JsonManagedReference
+    private List<PinUrl> pinUrl;
 
     @PrePersist
     public void perPersist() {

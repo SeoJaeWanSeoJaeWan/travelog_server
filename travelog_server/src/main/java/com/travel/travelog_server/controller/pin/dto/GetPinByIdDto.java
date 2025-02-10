@@ -1,7 +1,10 @@
 package com.travel.travelog_server.controller.pin.dto;
 
 import com.travel.travelog_server.model.Pin;
+import com.travel.travelog_server.model.PinUrl;
 import lombok.*;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,6 +19,7 @@ public class GetPinByIdDto {
     private Integer index;
     private String pinIcon;
     private String priceType;
+    private List<PinUrl> pinUrl;
 
     public GetPinByIdDto(Pin pin) {
         this.id = pin.getId();
@@ -28,5 +32,6 @@ public class GetPinByIdDto {
         this.index = pin.getIndex();
         this.pinIcon = pin.getPinType().getIcon();
         this.priceType = pin.getPriceType().getName();
+        this.pinUrl = pin.getPinUrl();
     }
 }

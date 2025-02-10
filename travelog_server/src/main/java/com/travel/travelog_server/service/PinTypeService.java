@@ -2,7 +2,7 @@ package com.travel.travelog_server.service;
 
 import com.travel.travelog_server.controller.pinType.dto.CreatePinTypeDto;
 import com.travel.travelog_server.model.PinType;
-import com.travel.travelog_server.repository.pinType.PinTypeRepository;
+import com.travel.travelog_server.repository.PinTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -26,9 +26,7 @@ public class PinController {
     public ResponseEntity<Void> createPin(@RequestBody CreatePinDto createPinDto) {
         pinService.createPin(createPinDto);
 
-        URI location = URI.create("/api/pin");
-
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{pinId}")

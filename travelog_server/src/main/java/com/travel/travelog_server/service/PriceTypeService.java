@@ -2,7 +2,7 @@ package com.travel.travelog_server.service;
 
 import com.travel.travelog_server.controller.priceType.dto.CreatePriceTypeDto;
 import com.travel.travelog_server.model.PriceType;
-import com.travel.travelog_server.repository.priceType.PriceTypeRepository;
+import com.travel.travelog_server.repository.PriceTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

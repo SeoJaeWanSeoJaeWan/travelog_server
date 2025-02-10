@@ -20,9 +20,7 @@ public class PriceTypeController {
     @PostMapping("")
     public ResponseEntity<Void> createPriceType(@RequestBody CreatePriceTypeDto createPriceTypeDto) {
         priceTypeService.createPriceType(createPriceTypeDto);
-        URI location = URI.create("/api/priceType");
-
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("")

@@ -20,9 +20,7 @@ public class PinTypeController {
     public ResponseEntity<Void> createPinType(@RequestBody CreatePinTypeDto createPinTypeDto) {
         pinTypeService.createPinType(createPinTypeDto);
 
-        URI location = URI.create("/api/pinType");
-
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("")

@@ -22,6 +22,7 @@ public class FindAllLogDto {
         this.id = log.getId();
         this.title = log.getTitle();
         this.days = log.getDays().stream()
+                .sorted((d1,d2) -> Integer.compare(d1.getIndex(), d2.getIndex()))
                 .map(LogDaysDto::new)
                 .collect(Collectors.toList());
     }

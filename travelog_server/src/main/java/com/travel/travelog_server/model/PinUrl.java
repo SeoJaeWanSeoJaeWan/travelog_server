@@ -1,5 +1,6 @@
 package com.travel.travelog_server.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,8 @@ public class PinUrl {
     @Column (nullable = false)
     private String title;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name="pinId")
+    @JsonBackReference
     private Pin pin;
 }

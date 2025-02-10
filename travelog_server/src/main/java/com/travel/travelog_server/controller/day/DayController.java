@@ -26,9 +26,7 @@ public class DayController {
     public ResponseEntity<Void> createDay(@RequestBody CreateDayDto createDayDto) {
         dayService.createDay(createDayDto);
 
-        URI location = URI.create("/api/day");
-
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{dayId}")

@@ -30,9 +30,9 @@ public class LogController {
 
 
     @PostMapping("")
-    public ResponseEntity<Log> createLog(@RequestBody CreateLogDto createLogDto) {
-        URI location = URI.create("/api/log");
+    public ResponseEntity<Void> createLog(@RequestBody CreateLogDto createLogDto) {
+        logService.createLog(createLogDto.getTitle());
 
-        return ResponseEntity.created(location).body(logService.createLog(createLogDto.getTitle()));
+        return ResponseEntity.noContent().build();
     }
 }

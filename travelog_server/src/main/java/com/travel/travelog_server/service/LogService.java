@@ -2,7 +2,7 @@ package com.travel.travelog_server.service;
 
 import com.travel.travelog_server.controller.log.dto.FindAllLogDto;
 import com.travel.travelog_server.model.Log;
-import com.travel.travelog_server.repository.log.LogRepository;
+import com.travel.travelog_server.repository.LogRepository;
 import org.springframework.stereotype.Service;
 import lombok.*;
 
