@@ -9,6 +9,7 @@ import com.travel.travelog_server.util.IndexUpdate;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class DayService {
         dayRepository.save(day);
     }
 
+    @Transactional
     public void deleteDay(Long dayId) {
         Day dayToDelete = dayRepository.findById(dayId).orElseThrow(() -> new EntityNotFoundException("해당 일자를 찾을 수 없습니다."));
 
@@ -50,6 +52,7 @@ public class DayService {
         dayRepository.saveAll(updatedDays);
     }
 
+    @Transactional
     public void updateDayIndex(Long dayId, Integer index) {
         Day dayToUpdate = dayRepository.findById(dayId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 일자를 찾을 수 없습니다."));

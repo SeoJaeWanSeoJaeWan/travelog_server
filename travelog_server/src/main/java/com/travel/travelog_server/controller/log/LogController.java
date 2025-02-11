@@ -13,12 +13,12 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/log")
+@RequestMapping("/api/logs")
 @RequiredArgsConstructor
 public class LogController {
     private final LogService logService;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<List<FindAllLogDto>> getAllLogs() {
         return ResponseEntity.ok().body(logService.getLogWithDaysAndPins());
     }

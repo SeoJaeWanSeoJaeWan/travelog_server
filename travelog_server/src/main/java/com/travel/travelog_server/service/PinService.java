@@ -12,6 +12,7 @@ import com.travel.travelog_server.util.IndexUpdate;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class PinService {
         pinRepository.save(pin);
     }
 
+    @Transactional
     public void updatePinIndex(Long pinId, Integer index) {
         Pin pinToUpdate = pinRepository.findById(pinId).orElseThrow(() -> new EntityNotFoundException(pinId + "에 해당하는 핀을 찾을 수 없습니다."));
 
@@ -75,6 +77,7 @@ public class PinService {
         pinRepository.save(pinToUpdate);
     }
 
+    @Transactional
     public void deletePin(Long pinId) {
         Pin pinToDelete = pinRepository.findById(pinId).orElseThrow(() -> new EntityNotFoundException(pinId + "에 해당하는 핀을 찾을 수 없습니다."));
 
