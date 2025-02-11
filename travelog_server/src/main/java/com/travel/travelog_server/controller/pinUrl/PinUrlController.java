@@ -4,6 +4,7 @@ import com.travel.travelog_server.controller.pinUrl.dto.CreatePinUrlDto;
 import com.travel.travelog_server.controller.pinUrl.dto.UpdatePinUrlDto;
 import com.travel.travelog_server.model.PinUrl;
 import com.travel.travelog_server.service.PinUrlService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class PinUrlController {
     private final PinUrlService pinUrlService;
 
     @PostMapping("")
-    public ResponseEntity<PinUrl> createPinUrl(@RequestBody CreatePinUrlDto createPinUrlDto) {
+    public ResponseEntity<PinUrl> createPinUrl(@Valid @RequestBody CreatePinUrlDto createPinUrlDto) {
         pinUrlService.createPinUrl(createPinUrlDto);
 
         return ResponseEntity.noContent().build();
@@ -31,7 +32,7 @@ public class PinUrlController {
     }
 
     @PutMapping("/{pinUrlId}")
-    public ResponseEntity<Void> updatePinUrl(@PathVariable Long pinUrlId, @RequestBody UpdatePinUrlDto updatePinUrlDto) {
+    public ResponseEntity<Void> updatePinUrl(@PathVariable Long pinUrlId, @Valid @RequestBody UpdatePinUrlDto updatePinUrlDto) {
         pinUrlService.updatePinUrl(pinUrlId, updatePinUrlDto);
 
         return ResponseEntity.noContent().build();

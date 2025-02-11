@@ -3,6 +3,7 @@ package com.travel.travelog_server.controller.pinType;
 import com.travel.travelog_server.controller.pinType.dto.CreatePinTypeDto;
 import com.travel.travelog_server.model.PinType;
 import com.travel.travelog_server.service.PinTypeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class PinTypeController {
     private final PinTypeService pinTypeService;
 
     @PostMapping("")
-    public ResponseEntity<Void> createPinType(@RequestBody CreatePinTypeDto createPinTypeDto) {
+    public ResponseEntity<Void> createPinType(@Valid @RequestBody CreatePinTypeDto createPinTypeDto) {
         pinTypeService.createPinType(createPinTypeDto);
 
         return ResponseEntity.noContent().build();

@@ -4,6 +4,7 @@ import com.travel.travelog_server.controller.day.dto.CreateDayDto;
 import com.travel.travelog_server.controller.day.dto.UpdateDayDto;
 import com.travel.travelog_server.model.Day;
 import com.travel.travelog_server.service.DayService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class DayController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createDay(@RequestBody CreateDayDto createDayDto) {
+    public ResponseEntity<Void> createDay(@Valid @RequestBody CreateDayDto createDayDto) {
         dayService.createDay(createDayDto);
 
         return ResponseEntity.noContent().build();
@@ -36,7 +37,7 @@ public class DayController {
     }
 
     @PatchMapping("/{dayId}")
-    public ResponseEntity<Void> updateDayIndex (@PathVariable Long dayId, @RequestBody UpdateDayDto updateDayDto) {
+    public ResponseEntity<Void> updateDayIndex (@PathVariable Long dayId,@Valid @RequestBody UpdateDayDto updateDayDto) {
         dayService.updateDayIndex(dayId, updateDayDto.getIndex());
         return ResponseEntity.noContent().build();
     }

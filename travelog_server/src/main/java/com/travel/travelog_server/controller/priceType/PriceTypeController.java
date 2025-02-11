@@ -3,6 +3,7 @@ package com.travel.travelog_server.controller.priceType;
 import com.travel.travelog_server.controller.priceType.dto.CreatePriceTypeDto;
 import com.travel.travelog_server.model.PriceType;
 import com.travel.travelog_server.service.PriceTypeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class PriceTypeController {
     private final PriceTypeService priceTypeService;
 
     @PostMapping("")
-    public ResponseEntity<Void> createPriceType(@RequestBody CreatePriceTypeDto createPriceTypeDto) {
+    public ResponseEntity<Void> createPriceType(@Valid @RequestBody CreatePriceTypeDto createPriceTypeDto) {
         priceTypeService.createPriceType(createPriceTypeDto);
         return ResponseEntity.noContent().build();
     }

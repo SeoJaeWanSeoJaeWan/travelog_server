@@ -1,5 +1,6 @@
 package com.travel.travelog_server.controller.priceType.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Setter
@@ -7,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatePriceTypeDto {
+    @NotBlank
     private String name;
 }
