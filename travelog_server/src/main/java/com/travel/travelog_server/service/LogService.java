@@ -1,8 +1,10 @@
 package com.travel.travelog_server.service;
 
+import com.travel.travelog_server.controller.log.dto.CreateLogDto;
 import com.travel.travelog_server.controller.log.dto.FindAllLogDto;
 import com.travel.travelog_server.model.Log;
 import com.travel.travelog_server.repository.LogRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import lombok.*;
 
@@ -22,10 +24,12 @@ public class LogService {
     }
 
     public void deleteLog(Long logId) {
-        logRepository.deleteById(logId);
+        Log logToDelete = logRepository.findById(logId).orElseThrow(() -> new EntityNotFoundException("해당 로그를 찾을 수 없습니다."));
+        logRepository.delete(logToDelete);
     }
 
-    public Log createLog(String title) {
+    public Log createLog(CreateLogDto createLogDto) {
+        String title = createLogDto.getTitle();
         String randomKey;
 
         do {

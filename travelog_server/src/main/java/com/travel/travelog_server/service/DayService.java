@@ -19,6 +19,10 @@ public class DayService {
     private final LogRepository logRepository;
 
     public List<Day> getDaysByLogId(Long logId) {
+        if (!logRepository.existsById(logId)) {
+            throw new EntityNotFoundException("해당 로그를 찾을 수 없습니다.");
+        }
+
         return dayRepository.findByLogIdOrderByIndexAsc(logId);
     }
 

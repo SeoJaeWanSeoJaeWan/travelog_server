@@ -1,5 +1,6 @@
 package com.travel.travelog_server.service;
 
+import com.travel.travelog_server.exception.FileSaveException;
 import com.travel.travelog_server.util.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -25,7 +26,7 @@ public class UploadService {
 
             file.transferTo(targetFile);
         } catch(IOException e) {
-            throw new RuntimeException("파일을 저장하지 못했습니다.", e);
+            throw new FileSaveException("파일을 저장하지 못했습니다.", e);
         }
     }
 }

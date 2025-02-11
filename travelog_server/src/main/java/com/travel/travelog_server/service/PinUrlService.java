@@ -6,6 +6,7 @@ import com.travel.travelog_server.model.Pin;
 import com.travel.travelog_server.model.PinUrl;
 import com.travel.travelog_server.repository.PinRepository;
 import com.travel.travelog_server.repository.PinUrlRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class PinUrlService {
 
     public void createPinUrl(CreatePinUrlDto createPinUrlDto) {
         PinUrl pinUrl = new PinUrl();
-        Pin pin = pinRepository.findById(createPinUrlDto.getPinId()).orElseThrow(() -> new IllegalArgumentException("해당 핀을 찾을 수 없습니다."));
+        Pin pin = pinRepository.findById(createPinUrlDto.getPinId()).orElseThrow(() -> new EntityNotFoundException("해당 핀을 찾을 수 없습니다."));
 
         pinUrl.setUrl(createPinUrlDto.getUrl());
         pinUrl.setTitle(createPinUrlDto.getTitle());
@@ -31,7 +32,7 @@ public class PinUrlService {
     }
 
     public void updatePinUrl(Long pinUrlId, UpdatePinUrlDto updatePinUrlDto) {
-        PinUrl pinUrl = pinUrlRepository.findById(pinUrlId).orElseThrow(() -> new IllegalArgumentException("해당 핀 URL을 찾을 수 없습니다."));
+        PinUrl pinUrl = pinUrlRepository.findById(pinUrlId).orElseThrow(() -> new EntityNotFoundException("해당 핀 URL을 찾을 수 없습니다."));
 
         pinUrl.setTitle(updatePinUrlDto.getTitle());
         pinUrl.setUrl(updatePinUrlDto.getUrl());
