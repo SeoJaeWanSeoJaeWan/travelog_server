@@ -2,6 +2,7 @@ package com.travel.travelog_server.util;
 
 import com.travel.travelog_server.exception.FileNameException;
 import com.travel.travelog_server.exception.FileNotFoundException;
+import com.travel.travelog_server.exception.FilePathException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.tuple.Pair;
@@ -46,7 +47,7 @@ public class FileUtils {
 
     public static Pair<byte[], String> readFileContent(String fileName) {
         if(filePath == null || filePath.isEmpty()) {
-            throw new IllegalStateException("File path is not set");
+            throw new FilePathException("File path is not set");
         }
 
         Path path = Paths.get(filePath + fileName).normalize();
