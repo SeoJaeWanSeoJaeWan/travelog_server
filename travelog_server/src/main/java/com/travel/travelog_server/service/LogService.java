@@ -1,10 +1,7 @@
 package com.travel.travelog_server.service;
 
 import com.travel.travelog_server.controller.day.dto.LogByIdDaysDto;
-import com.travel.travelog_server.controller.log.dto.CheckKeyDto;
-import com.travel.travelog_server.controller.log.dto.CreateLogBodyDto;
-import com.travel.travelog_server.controller.log.dto.AllLogDto;
-import com.travel.travelog_server.controller.log.dto.GetLogByIdDto;
+import com.travel.travelog_server.controller.log.dto.*;
 import com.travel.travelog_server.model.Day;
 import com.travel.travelog_server.model.DayPriceSummary;
 import com.travel.travelog_server.model.Log;
@@ -55,15 +52,14 @@ public class LogService {
         return new GetLogByIdDto(log, transformedDays, logPriceSummary);
     }
 
-    public void deleteLog(Long logId) {
-        if(!logRepository.existsById(logId)) {
-            throw new EntityNotFoundException("해당 로그를 찾을 수 없습니다.");
-        }
+    public DeleteLogDto deleteLog(Long logId) {
+        Log log = logRepository.findById(logId).orElseThrow(() -> new EntityNotFoundException("해당 로그를 찾을 수 없습니다."));
 
-        logRepository.deleteById(logId);
+        logRepository.delete(log);
+        return new DeleteLogDto(log.getKey());
     }
 
-    public void createLog(CreateLogBodyDto createLogBodyDto) {
+    public CreateLogDto createLog(CreateLogBodyDto createLogBodyDto) {
         String title = createLogBodyDto.getTitle();
         String randomKey;
 
@@ -78,6 +74,8 @@ public class LogService {
         log.setKey(randomKey);
 
         logRepository.save(log);
+
+        return new CreateLogDto(randomKey);
     }
 
     public void checkKey(CheckKeyDto checkKeyDto) {

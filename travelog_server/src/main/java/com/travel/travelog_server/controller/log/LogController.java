@@ -1,12 +1,10 @@
 package com.travel.travelog_server.controller.log;
 
-import com.travel.travelog_server.controller.log.dto.CheckKeyDto;
-import com.travel.travelog_server.controller.log.dto.CreateLogBodyDto;
-import com.travel.travelog_server.controller.log.dto.AllLogDto;
-import com.travel.travelog_server.controller.log.dto.GetLogByIdDto;
+import com.travel.travelog_server.controller.log.dto.*;
 import com.travel.travelog_server.service.LogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,20 +29,20 @@ public class LogController {
     }
 
     @DeleteMapping("/{logId}")
-    public ResponseEntity<Void> deleteLog(@PathVariable Long logId) {
-        logService.deleteLog(logId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<DeleteLogDto> deleteLog(@PathVariable Long logId) {
+        DeleteLogDto deleteLogDto = logService.deleteLog(logId);
+        return ResponseEntity.ok().body(deleteLogDto);
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createLog(@Valid @RequestBody CreateLogBodyDto createLogBodyDto) {
-        logService.createLog(createLogBodyDto);
+    public ResponseEntity<CreateLogDto> createLog(@Valid @RequestBody CreateLogBodyDto createLogBodyDto) {
+        CreateLogDto createLogDto = logService.createLog(createLogBodyDto);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(createLogDto);
     }
 
     @PostMapping("/key")
-    public ResponseEntity<Boolean> checkKey(@Valid @RequestBody CheckKeyDto checkKeyDto) {
+    public ResponseEntity<Void> checkKey(@Valid @RequestBody CheckKeyDto checkKeyDto) {
         logService.checkKey(checkKeyDto);
 
         return ResponseEntity.noContent().build();
