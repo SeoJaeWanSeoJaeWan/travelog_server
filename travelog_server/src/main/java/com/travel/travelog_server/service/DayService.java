@@ -1,6 +1,7 @@
 package com.travel.travelog_server.service;
 
-import com.travel.travelog_server.controller.day.dto.CreateDayDto;
+import com.travel.travelog_server.controller.day.dto.CreateDayBodyDto;
+import com.travel.travelog_server.controller.day.dto.UpdateDayBodyDto;
 import com.travel.travelog_server.model.Day;
 import com.travel.travelog_server.model.Log;
 import com.travel.travelog_server.repository.DayRepository;
@@ -19,19 +20,11 @@ public class DayService {
     private final DayRepository dayRepository;
     private final LogRepository logRepository;
 
-    public List<Day> getDaysByLogId(Long logId) {
-        if (!logRepository.existsById(logId)) {
-            throw new EntityNotFoundException("해당 로그를 찾을 수 없습니다.");
-        }
-
-        return dayRepository.findByLogIdOrderByIndexAsc(logId);
-    }
-
-    public void createDay(CreateDayDto createDayDto) {
-        Log log = logRepository.findById(createDayDto.getLogId()).orElseThrow(() -> new EntityNotFoundException(("해당 로그를 찾을 수 없습니다.")));
+    public void createDay(CreateDayBodyDto createDayBodyDto) {
+        Log log = logRepository.findById(createDayBodyDto.getLogId()).orElseThrow(() -> new EntityNotFoundException(("해당 로그를 찾을 수 없습니다.")));
 
         Day day = new Day();
-        day.setIndex(createDayDto.getIndex());
+        day.setIndex(createDayBodyDto.getIndex());
         day.setLog(log);
 
         dayRepository.save(day);
@@ -53,7 +46,8 @@ public class DayService {
     }
 
     @Transactional
-    public void updateDayIndex(Long dayId, Integer index) {
+    public void updateDayIndex(Long dayId, UpdateDayBodyDto updateDayBodyDto) {
+        Integer index = updateDayBodyDto.getIndex();
         Day dayToUpdate = dayRepository.findById(dayId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 일자를 찾을 수 없습니다."));
 

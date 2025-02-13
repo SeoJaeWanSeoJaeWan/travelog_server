@@ -1,13 +1,12 @@
 package com.travel.travelog_server.controller.log.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CreateLogDto {
+public class CheckKeyDto {
     @NotBlank
-    private String title;
+    private String key;
 }

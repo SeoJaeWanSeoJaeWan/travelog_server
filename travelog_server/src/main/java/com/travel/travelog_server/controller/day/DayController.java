@@ -1,16 +1,12 @@
 package com.travel.travelog_server.controller.day;
 
-import com.travel.travelog_server.controller.day.dto.CreateDayDto;
-import com.travel.travelog_server.controller.day.dto.UpdateDayDto;
-import com.travel.travelog_server.model.Day;
+import com.travel.travelog_server.controller.day.dto.CreateDayBodyDto;
+import com.travel.travelog_server.controller.day.dto.UpdateDayBodyDto;
 import com.travel.travelog_server.service.DayService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,14 +14,9 @@ import java.util.List;
 public class DayController {
     private final DayService dayService;
 
-    @GetMapping("/{logId}")
-    public ResponseEntity<List<Day>> getDaysByLogId(@PathVariable Long logId) {
-        return ResponseEntity.ok(dayService.getDaysByLogId(logId));
-    }
-
     @PostMapping("")
-    public ResponseEntity<Void> createDay(@Valid @RequestBody CreateDayDto createDayDto) {
-        dayService.createDay(createDayDto);
+    public ResponseEntity<Void> createDay(@Valid @RequestBody CreateDayBodyDto createDayBodyDto) {
+        dayService.createDay(createDayBodyDto);
 
         return ResponseEntity.noContent().build();
     }
@@ -37,8 +28,8 @@ public class DayController {
     }
 
     @PatchMapping("/{dayId}")
-    public ResponseEntity<Void> updateDayIndex (@PathVariable Long dayId,@Valid @RequestBody UpdateDayDto updateDayDto) {
-        dayService.updateDayIndex(dayId, updateDayDto.getIndex());
+    public ResponseEntity<Void> updateDayIndex (@PathVariable Long dayId,@Valid @RequestBody UpdateDayBodyDto updateDayBodyDto) {
+        dayService.updateDayIndex(dayId, updateDayBodyDto);
         return ResponseEntity.noContent().build();
     }
 }

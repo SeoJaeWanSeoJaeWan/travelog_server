@@ -46,11 +46,11 @@ public class Pin implements Index {
     private Day day;
 
     @ManyToOne
-    @JoinColumn(name="pinTypeId")
+    @JoinColumn(name="pinTypeId", unique = false)
     private PinType pinType;
 
     @ManyToOne
-    @JoinColumn(name="priceTypeId")
+    @JoinColumn(name="priceTypeId", unique = false)
     private PriceType priceType;
 
     @OneToMany(mappedBy="pin", cascade=CascadeType.REMOVE,fetch=FetchType.LAZY)

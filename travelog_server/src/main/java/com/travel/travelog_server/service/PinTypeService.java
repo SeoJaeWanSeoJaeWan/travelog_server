@@ -1,6 +1,7 @@
 package com.travel.travelog_server.service;
 
-import com.travel.travelog_server.controller.pinType.dto.CreatePinTypeDto;
+import com.travel.travelog_server.controller.pinType.dto.CreatePinTypeBodyDto;
+import com.travel.travelog_server.controller.pinType.dto.GetAllPinTypeDto;
 import com.travel.travelog_server.model.PinType;
 import com.travel.travelog_server.repository.PinTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,9 @@ import java.util.List;
 public class PinTypeService {
     private final PinTypeRepository pinTypeRepository;
 
-    public void createPinType(CreatePinTypeDto createPinTypeDto) {
-        String name = createPinTypeDto.getName();
-        String icon = createPinTypeDto.getIcon();
+    public void createPinType(CreatePinTypeBodyDto createPinTypeBodyDto) {
+        String name = createPinTypeBodyDto.getName();
+        String icon = createPinTypeBodyDto.getIcon();
 
         PinType pinType = new PinType();
         pinType.setName(name);
@@ -24,7 +25,8 @@ public class PinTypeService {
         pinTypeRepository.save(pinType);
     }
 
-    public List<PinType> getAllPinTypes() {
-        return pinTypeRepository.findAll();
+    public List<GetAllPinTypeDto> getAllPinType() {
+        List<PinType> pinTypes = pinTypeRepository.findAll();
+        return pinTypes.stream().map(GetAllPinTypeDto::new).toList();
     }
 }

@@ -14,9 +14,12 @@ public class LogPinsDto {
     private Double lat;
     private Double lng;
 
+    private String pinType;
+
     public LogPinsDto(Pin pin) {
         this.index = pin.getIndex();
         this.lat = pin.getLat();
         this.lng = pin.getLng();
+        this.pinType = pin.getPinType().getIcon();
     }
 }

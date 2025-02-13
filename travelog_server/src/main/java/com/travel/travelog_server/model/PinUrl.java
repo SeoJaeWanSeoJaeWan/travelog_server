@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="pinUrls")
+@Table(name="pin_urls")
 @Getter
 @Setter
 public class PinUrl {

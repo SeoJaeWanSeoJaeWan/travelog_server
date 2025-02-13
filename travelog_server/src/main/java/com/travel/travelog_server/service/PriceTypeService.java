@@ -1,6 +1,7 @@
 package com.travel.travelog_server.service;
 
-import com.travel.travelog_server.controller.priceType.dto.CreatePriceTypeDto;
+import com.travel.travelog_server.controller.priceType.dto.CreatePriceTypeBodyDto;
+import com.travel.travelog_server.controller.priceType.dto.GetAllPriceTypeDto;
 import com.travel.travelog_server.model.PriceType;
 import com.travel.travelog_server.repository.PriceTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,8 @@ import java.util.List;
 public class PriceTypeService {
     private final PriceTypeRepository priceTypeRepository;
 
-    public void createPriceType(CreatePriceTypeDto createPriceTypeDto) {
-        String name = createPriceTypeDto.getName();
+    public void createPriceType(CreatePriceTypeBodyDto createPriceTypeBodyDto) {
+        String name = createPriceTypeBodyDto.getName();
 
         PriceType priceType = new PriceType();
         priceType.setName(name);
@@ -22,7 +23,8 @@ public class PriceTypeService {
         priceTypeRepository.save(priceType);
     }
 
-    public List<PriceType> getAllPriceTypes() {
-        return priceTypeRepository.findAll();
+    public List<GetAllPriceTypeDto> getAllPriceType() {
+        List<PriceType> priceTypes = priceTypeRepository.findAll();
+        return priceTypes.stream().map(GetAllPriceTypeDto::new).toList();
     }
 }

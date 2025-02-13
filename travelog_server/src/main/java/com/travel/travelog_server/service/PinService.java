@@ -1,8 +1,9 @@
 package com.travel.travelog_server.service;
 
-import com.travel.travelog_server.controller.pin.dto.CreatePinDto;
+import com.travel.travelog_server.controller.pin.dto.CreatePinBodyDto;
 import com.travel.travelog_server.controller.pin.dto.GetPinByIdDto;
-import com.travel.travelog_server.controller.pin.dto.UpdatePinDto;
+import com.travel.travelog_server.controller.pin.dto.UpdatePinBodyDto;
+import com.travel.travelog_server.controller.pin.dto.UpdatePinIndexBodyDto;
 import com.travel.travelog_server.model.Day;
 import com.travel.travelog_server.model.Pin;
 import com.travel.travelog_server.model.PinType;
@@ -30,34 +31,40 @@ public class PinService {
         return new GetPinByIdDto(pin);
     }
 
-    public void createPin(CreatePinDto createPinDto) {
-        PinType pinType = pinTypeRepository.findById(createPinDto.getPinTypeId()).orElseThrow(() -> new EntityNotFoundException("해당 핀 타입을 찾을 수 없습니다."));
-        Day day = dayRepository.findById(createPinDto.getDayId()).orElseThrow(() -> new EntityNotFoundException("해당 일자를 찾을 수 없습니다."));
+    public void createPin(CreatePinBodyDto createPinBodyDto) {
+        PinType pinType = pinTypeRepository.findById(createPinBodyDto.getPinTypeId()).orElseThrow(() -> new EntityNotFoundException("해당 핀 타입을 찾을 수 없습니다."));
+        Day day = dayRepository.findById(createPinBodyDto.getDayId()).orElseThrow(() -> new EntityNotFoundException("해당 일자를 찾을 수 없습니다."));
 
         Pin pin = new Pin();
 
-        pin.setIndex(createPinDto.getIndex());
-        pin.setLat(createPinDto.getLat());
-        pin.setLng(createPinDto.getLng());
+        pin.setIndex(createPinBodyDto.getIndex());
+        pin.setLat(createPinBodyDto.getLat());
+        pin.setLng(createPinBodyDto.getLng());
         pin.setPinType(pinType);
         pin.setDay(day);
 
         pinRepository.save(pin);
     }
 
-    public void updatePin(UpdatePinDto updatePinDto, Long pinId) {
+    public void updatePin(UpdatePinBodyDto updatePinBodyDto, Long pinId) {
 
         Pin pin = pinRepository.findById(pinId).orElseThrow(() -> new EntityNotFoundException(pinId + "에 해당하는 핀을 찾을 수 없습니다."));
 
-        PinType pinType = pinTypeRepository.findById(updatePinDto.getPinTypeId()).orElseThrow(() -> new EntityNotFoundException("해당 핀 타입을 찾을 수 없습니다."));
-        PriceType priceType = priceTypeRepository.findById(updatePinDto.getPriceTypeId()).orElseThrow(() -> new EntityNotFoundException("해당 가격 타입을 찾을 수 없습니다."));
+        PinType pinType = pinTypeRepository.findById(updatePinBodyDto.getPinTypeId()).orElseThrow(() -> new EntityNotFoundException("해당 핀 타입을 찾을 수 없습니다."));
+        PriceType priceType = priceTypeRepository.findById(updatePinBodyDto.getPriceTypeId()).orElseThrow(() -> new EntityNotFoundException("해당 가격 타입을 찾을 수 없습니다."));
 
-        pin.setLat(updatePinDto.getLat());
-        pin.setLng(updatePinDto.getLng());
-        pin.setTitle(updatePinDto.getTitle());
-        pin.setDescription(updatePinDto.getDescription());
-        pin.setPicture(updatePinDto.getPicture());
-        pin.setPrice(updatePinDto.getPrice());
+        if(updatePinBodyDto.getTitle() != null) {
+            pin.setTitle(updatePinBodyDto.getTitle());
+        }
+        if(updatePinBodyDto.getDescription() != null) {
+            pin.setDescription(updatePinBodyDto.getDescription());
+        }
+        if(updatePinBodyDto.getPicture() != null) {
+            pin.setPicture(updatePinBodyDto.getPicture());
+        }
+        pin.setLat(updatePinBodyDto.getLat());
+        pin.setLng(updatePinBodyDto.getLng());
+        pin.setPrice(updatePinBodyDto.getPrice());
         pin.setPriceType(priceType);
         pin.setPinType(pinType);
 
@@ -65,7 +72,8 @@ public class PinService {
     }
 
     @Transactional
-    public void updatePinIndex(Long pinId, Integer index) {
+    public void updatePinIndex(Long pinId, UpdatePinIndexBodyDto updatePinIndexBodyDto) {
+        Integer index = updatePinIndexBodyDto.getIndex();
         Pin pinToUpdate = pinRepository.findById(pinId).orElseThrow(() -> new EntityNotFoundException(pinId + "에 해당하는 핀을 찾을 수 없습니다."));
 
         List<Pin> pins = pinRepository.findByDayIdOrderByIndexAsc(pinToUpdate.getDay().getId());

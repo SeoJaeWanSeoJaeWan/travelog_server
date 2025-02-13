@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="pinTypes")
+@Table(name="pin_types")
 @Getter
 @Setter
+@NoArgsConstructor
 public class PinType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,4 +18,9 @@ public class PinType {
 
     @Column(nullable = false)
     private String icon;
+
+    public PinType (String name, String url) {
+        this.name = name;
+        this.icon = url;
+    }
 }

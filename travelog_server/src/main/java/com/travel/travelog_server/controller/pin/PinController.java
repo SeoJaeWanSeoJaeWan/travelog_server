@@ -1,16 +1,14 @@
 package com.travel.travelog_server.controller.pin;
 
-import com.travel.travelog_server.controller.pin.dto.CreatePinDto;
+import com.travel.travelog_server.controller.pin.dto.CreatePinBodyDto;
 import com.travel.travelog_server.controller.pin.dto.GetPinByIdDto;
-import com.travel.travelog_server.controller.pin.dto.UpdatePinDto;
-import com.travel.travelog_server.controller.pin.dto.UpdatePinIndexDto;
+import com.travel.travelog_server.controller.pin.dto.UpdatePinBodyDto;
+import com.travel.travelog_server.controller.pin.dto.UpdatePinIndexBodyDto;
 import com.travel.travelog_server.service.PinService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/pin")
@@ -24,22 +22,22 @@ public class PinController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createPin(@Valid @RequestBody CreatePinDto createPinDto) {
-        pinService.createPin(createPinDto);
+    public ResponseEntity<Void> createPin(@Valid @RequestBody CreatePinBodyDto createPinBodyDto) {
+        pinService.createPin(createPinBodyDto);
 
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{pinId}")
-    public ResponseEntity<Void> updatePin(@Valid @RequestBody UpdatePinDto updatePinDto, @PathVariable Long pinId) {
-        pinService.updatePin(updatePinDto, pinId);
+    public ResponseEntity<Void> updatePin(@Valid @RequestBody UpdatePinBodyDto updatePinBodyDto, @PathVariable Long pinId) {
+        pinService.updatePin(updatePinBodyDto, pinId);
 
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{pinId}")
-    public ResponseEntity<Void> updatePinIndex(@Valid @RequestBody UpdatePinIndexDto updatePinIndexDto, @PathVariable Long pinId) {
-        pinService.updatePinIndex(pinId, updatePinIndexDto.getIndex());
+    public ResponseEntity<Void> updatePinIndex(@Valid @RequestBody UpdatePinIndexBodyDto updatePinIndexBodyDto, @PathVariable Long pinId) {
+        pinService.updatePinIndex(pinId, updatePinIndexBodyDto);
 
         return ResponseEntity.noContent().build();
     }

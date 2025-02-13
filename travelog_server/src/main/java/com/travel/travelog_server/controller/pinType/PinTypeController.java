@@ -1,14 +1,13 @@
 package com.travel.travelog_server.controller.pinType;
 
-import com.travel.travelog_server.controller.pinType.dto.CreatePinTypeDto;
-import com.travel.travelog_server.model.PinType;
+import com.travel.travelog_server.controller.pinType.dto.CreatePinTypeBodyDto;
+import com.travel.travelog_server.controller.pinType.dto.GetAllPinTypeDto;
 import com.travel.travelog_server.service.PinTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -18,14 +17,14 @@ public class PinTypeController {
     private final PinTypeService pinTypeService;
 
     @PostMapping("")
-    public ResponseEntity<Void> createPinType(@Valid @RequestBody CreatePinTypeDto createPinTypeDto) {
-        pinTypeService.createPinType(createPinTypeDto);
+    public ResponseEntity<Void> createPinType(@Valid @RequestBody CreatePinTypeBodyDto createPinTypeBodyDto) {
+        pinTypeService.createPinType(createPinTypeBodyDto);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("")
-    public ResponseEntity<List<PinType>> getAllPinTypes() {
-        return ResponseEntity.ok(pinTypeService.getAllPinTypes());
+    public ResponseEntity<List<GetAllPinTypeDto>> getAllPinType() {
+        return ResponseEntity.ok(pinTypeService.getAllPinType());
     }
 }

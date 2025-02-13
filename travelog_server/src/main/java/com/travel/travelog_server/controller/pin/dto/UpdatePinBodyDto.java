@@ -1,32 +1,29 @@
 package com.travel.travelog_server.controller.pin.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Setter
 @Getter
-public class UpdatePinDto {
-    @NotBlank
+public class UpdatePinBodyDto {
+    @NotNull
     private Double lat;
 
-    @NotBlank
+    @NotNull
     private Double lng;
 
-    @NotBlank
     private String title;
 
-    @NotBlank
     private String description;
 
-    @NotBlank
     private String picture;
 
-    @NotBlank
+    @NotNull
     private Integer price;
 
-    @NotBlank
+    @NotNull
     private Long pinTypeId;
 
-    @NotBlank
+    @NotNull
     private Long priceTypeId;
 }

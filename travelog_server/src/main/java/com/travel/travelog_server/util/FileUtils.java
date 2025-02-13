@@ -1,5 +1,7 @@
 package com.travel.travelog_server.util;
 
+import com.travel.travelog_server.exception.FileNameException;
+import com.travel.travelog_server.exception.FileNotFoundException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,6 +17,10 @@ public class FileUtils {
     private static String filePath;
 
     public static String[] getFileNameAndExtension(String originFileName) {
+        if(!originFileName.contains(".")) {
+            throw new FileNameException("Invalid file name");
+        }
+
         int lastIndexOfDot = originFileName.lastIndexOf(".");
         String name = originFileName.substring(0, lastIndexOfDot);
         String extension = originFileName.substring(lastIndexOfDot);
@@ -51,7 +57,7 @@ public class FileUtils {
 
             return Pair.of(file, contentType);
         } catch(IOException e) {
-            throw new RuntimeException("Failed to read file", e);
+            throw new FileNotFoundException("Failed to read file", e);
         }
     }
 

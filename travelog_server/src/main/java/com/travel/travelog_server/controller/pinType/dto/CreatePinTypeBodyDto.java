@@ -1,4 +1,4 @@
-package com.travel.travelog_server.controller.priceType.dto;
+package com.travel.travelog_server.controller.pinType.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -7,7 +7,10 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePriceTypeDto {
+public class CreatePinTypeBodyDto {
     @NotBlank
     private String name;
+
+    @NotBlank
+    private String icon;
 }

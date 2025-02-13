@@ -11,16 +11,18 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class FindAllLogDto {
+public class AllLogDto {
     private Long id;
     private String title;
+    private String key;
 
     @JsonProperty("days")
     private List<LogDaysDto> days;
 
-    public FindAllLogDto(Log log) {
+    public AllLogDto(Log log) {
         this.id = log.getId();
         this.title = log.getTitle();
+        this.key = log.getKey();
         this.days = log.getDays().stream()
                 .sorted((d1,d2) -> Integer.compare(d1.getIndex(), d2.getIndex()))
                 .map(LogDaysDto::new)

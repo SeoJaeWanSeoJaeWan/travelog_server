@@ -1,35 +1,70 @@
 package com.travel.travelog_server.service;
 
-import com.travel.travelog_server.controller.log.dto.CreateLogDto;
-import com.travel.travelog_server.controller.log.dto.FindAllLogDto;
+import com.travel.travelog_server.controller.day.dto.LogByIdDaysDto;
+import com.travel.travelog_server.controller.log.dto.CheckKeyDto;
+import com.travel.travelog_server.controller.log.dto.CreateLogBodyDto;
+import com.travel.travelog_server.controller.log.dto.AllLogDto;
+import com.travel.travelog_server.controller.log.dto.GetLogByIdDto;
+import com.travel.travelog_server.model.Day;
+import com.travel.travelog_server.model.DayPriceSummary;
 import com.travel.travelog_server.model.Log;
+import com.travel.travelog_server.model.LogPriceSummary;
+import com.travel.travelog_server.repository.DayPriceSummaryRepository;
+import com.travel.travelog_server.repository.DayRepository;
+import com.travel.travelog_server.repository.LogPriceSummaryRepository;
 import com.travel.travelog_server.repository.LogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import lombok.*;
-
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LogService {
     private final LogRepository logRepository;
+    private final DayRepository dayRepository;
+    private final LogPriceSummaryRepository logPriceSummaryRepository;
+    private final DayPriceSummaryRepository dayPriceSummaryRepository;
 
-    public List<FindAllLogDto> getLogWithDaysAndPins() {
+    public AllLogDto getLogByKey (String Key) {
+        Log log = logRepository.findByKey(Key).orElseThrow(() -> new EntityNotFoundException("해당 로그를 찾을 수 없습니다."));
+
+        return new AllLogDto(log);
+    }
+
+    public List<AllLogDto> getLogWithDaysAndPins() {
         List<Log> logs = logRepository.findAll();
 
-        return logs.stream().map(FindAllLogDto::new).collect(Collectors.toList());
+        return logs.stream().map(AllLogDto::new
+        ).toList();
+    }
+
+    public GetLogByIdDto getLogById(Long logId) {
+        Log log = logRepository.findById(logId).orElseThrow(() -> new EntityNotFoundException("해당 로그를 찾을 수 없습니다."));
+
+        LogPriceSummary logPriceSummary = logPriceSummaryRepository.findByLogId(logId);
+        List<Day> days = dayRepository.findByLogIdOrderByIndexAsc(logId);
+
+        List<LogByIdDaysDto> transformedDays = days.stream().map(day -> {
+            DayPriceSummary dayPriceSummary = dayPriceSummaryRepository.findByDayId(day.getId());
+
+            return new LogByIdDaysDto(day, dayPriceSummary);
+        }).toList();
+
+        return new GetLogByIdDto(log, transformedDays, logPriceSummary);
     }
 
     public void deleteLog(Long logId) {
-        Log logToDelete = logRepository.findById(logId).orElseThrow(() -> new EntityNotFoundException("해당 로그를 찾을 수 없습니다."));
-        logRepository.delete(logToDelete);
+        if(!logRepository.existsById(logId)) {
+            throw new EntityNotFoundException("해당 로그를 찾을 수 없습니다.");
+        }
+
+        logRepository.deleteById(logId);
     }
 
-    public Log createLog(CreateLogDto createLogDto) {
-        String title = createLogDto.getTitle();
+    public void createLog(CreateLogBodyDto createLogBodyDto) {
+        String title = createLogBodyDto.getTitle();
         String randomKey;
 
         do {
@@ -43,7 +78,11 @@ public class LogService {
         log.setKey(randomKey);
 
         logRepository.save(log);
+    }
 
-        return log;
+    public void checkKey(CheckKeyDto checkKeyDto) {
+        if(!logRepository.existsByKey(checkKeyDto.getKey())) {
+            throw new EntityNotFoundException("해당 로그를 찾을 수 없습니다.");
+        }
     }
 }

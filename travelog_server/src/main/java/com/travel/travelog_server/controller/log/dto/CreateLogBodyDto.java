@@ -1,4 +1,4 @@
-package com.travel.travelog_server.controller.pinUrl.dto;
+package com.travel.travelog_server.controller.log.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -7,10 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatePinUrlDto {
+public class CreateLogBodyDto {
     @NotBlank
     private String title;
-
-    @NotBlank
-    private String url;
 }
