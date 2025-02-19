@@ -34,7 +34,6 @@ public class Pin implements Index {
     private String picture;
 
     @Column (nullable = false)
-    @JsonProperty("pinIndex")
     private Integer index;
 
     @Column (nullable = false)
@@ -69,11 +68,11 @@ public class Pin implements Index {
         }
 
         if(this.title == null) {
-            this.title = "";
+            this.title = "제목을 입력해 주세요.";
         }
 
         if(this.description == null) {
-            this.description = "";
+            this.description = "설명을 입력해 주세요.";
         }
     }
 }

@@ -11,7 +11,8 @@ public enum ErrorCode {
     VALIDATION_MULTIPART_ERROR("V002", "파일이 필요합니다."),
 
     // DB
-    ENTITY_NOT_FOUND_ERROR("E001", "해당 엔티티를 찾을 수 없습니다."),
+    ENTITY_NOT_FOUND_ERROR("E001", "해당 정보를 찾을 수 없습니다."),
+    ENTITY_NOT_FOUND_KEY_ERROR("E002", "해당 코드를 가진 여행 일정을 찾을 수 없습니다."),
 
     // File
     FILE_EXTENSION_ERROR("F001", "지원하지 않는 파일 확장자입니다."),

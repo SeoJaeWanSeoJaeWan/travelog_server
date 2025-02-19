@@ -2,10 +2,7 @@ package com.travel.travelog_server.response;
 
 import com.travel.travelog_server.code.ErrorCode;
 import com.travel.travelog_server.dto.ErrorResponse;
-import com.travel.travelog_server.exception.FileNameException;
-import com.travel.travelog_server.exception.FileNotFoundException;
-import com.travel.travelog_server.exception.FilePathException;
-import com.travel.travelog_server.exception.FileSaveException;
+import com.travel.travelog_server.exception.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
@@ -46,6 +43,15 @@ public class GlobalExceptionHandler {
         errors.put("entity", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.ENTITY_NOT_FOUND_ERROR.getCode(), ErrorCode.ENTITY_NOT_FOUND_ERROR.getMessage(), errors);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(NotFoundKeyException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundKeyException(NotFoundKeyException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("key", ex.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.ENTITY_NOT_FOUND_KEY_ERROR.getCode(), ErrorCode.ENTITY_NOT_FOUND_KEY_ERROR.getMessage(), errors);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 

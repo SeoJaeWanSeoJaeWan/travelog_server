@@ -22,7 +22,7 @@ public class IndexUpdate {
         } else {
            updatedList = list
                     .stream()
-                    .filter(item -> item.getIndex() >= updateIndex && !item.getId().equals(id))
+                    .filter(item -> item.getIndex() >= updateIndex  && item.getIndex() < currentIndex && !item.getId().equals(id))
                     .toList();
 
             updatedList = new ArrayList<>(updatedList);

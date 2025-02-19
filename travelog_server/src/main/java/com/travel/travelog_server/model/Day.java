@@ -21,7 +21,6 @@ public class Day implements Index {
     private Long id;
 
     @Column(nullable = false)
-    @JsonProperty("dayIndex")
     private Integer index;
 
     @ManyToOne

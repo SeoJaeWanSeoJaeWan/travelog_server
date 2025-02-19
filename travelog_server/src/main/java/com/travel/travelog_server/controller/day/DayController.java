@@ -1,6 +1,7 @@
 package com.travel.travelog_server.controller.day;
 
 import com.travel.travelog_server.controller.day.dto.CreateDayBodyDto;
+import com.travel.travelog_server.controller.day.dto.GetDayById;
 import com.travel.travelog_server.controller.day.dto.UpdateDayBodyDto;
 import com.travel.travelog_server.service.DayService;
 import jakarta.validation.Valid;
@@ -14,11 +15,17 @@ import org.springframework.web.bind.annotation.*;
 public class DayController {
     private final DayService dayService;
 
+
     @PostMapping("")
     public ResponseEntity<Void> createDay(@Valid @RequestBody CreateDayBodyDto createDayBodyDto) {
         dayService.createDay(createDayBodyDto);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{dayId}")
+    public ResponseEntity<GetDayById> getDay(@PathVariable Long dayId) {
+        return ResponseEntity.ok().body(dayService.getDay(dayId));
     }
 
     @DeleteMapping("/{dayId}")

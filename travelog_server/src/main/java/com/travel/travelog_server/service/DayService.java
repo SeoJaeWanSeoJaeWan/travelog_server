@@ -1,11 +1,17 @@
 package com.travel.travelog_server.service;
 
 import com.travel.travelog_server.controller.day.dto.CreateDayBodyDto;
+import com.travel.travelog_server.controller.day.dto.GetDayById;
 import com.travel.travelog_server.controller.day.dto.UpdateDayBodyDto;
+import com.travel.travelog_server.controller.pin.dto.DayPinsDto;
 import com.travel.travelog_server.model.Day;
+import com.travel.travelog_server.model.DayPriceSummary;
 import com.travel.travelog_server.model.Log;
+import com.travel.travelog_server.model.Pin;
+import com.travel.travelog_server.repository.DayPriceSummaryRepository;
 import com.travel.travelog_server.repository.DayRepository;
 import com.travel.travelog_server.repository.LogRepository;
+import com.travel.travelog_server.repository.PinRepository;
 import com.travel.travelog_server.util.IndexUpdate;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DayService {
     private final DayRepository dayRepository;
+    private final PinRepository pinRepository;
     private final LogRepository logRepository;
+    private final DayPriceSummaryRepository dayPriceSummaryRepository;
 
     public void createDay(CreateDayBodyDto createDayBodyDto) {
         Log log = logRepository.findById(createDayBodyDto.getLogId()).orElseThrow(() -> new EntityNotFoundException(("해당 로그를 찾을 수 없습니다.")));
@@ -28,6 +36,19 @@ public class DayService {
         day.setLog(log);
 
         dayRepository.save(day);
+    }
+
+    public GetDayById getDay(Long dayId) {
+        Day day = dayRepository.findById(dayId).orElseThrow(() -> new EntityNotFoundException("해당 일자를 찾을 수 없습니다."));
+        List<Pin> pin = pinRepository.findByDayIdOrderByIndexAsc(dayId);
+
+        List<DayPinsDto> transformedPins = pin.stream()
+                .map(DayPinsDto::new)
+                .toList();
+
+        DayPriceSummary dayPriceSummary = dayPriceSummaryRepository.findByDayId(day.getId());
+
+        return new GetDayById(day,transformedPins,dayPriceSummary);
     }
 
     @Transactional

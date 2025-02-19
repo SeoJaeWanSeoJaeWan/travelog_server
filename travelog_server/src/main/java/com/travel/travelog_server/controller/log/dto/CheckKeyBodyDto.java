@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CheckKeyDto {
+public class CheckKeyBodyDto {
     @NotBlank
     private String key;
 }

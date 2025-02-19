@@ -7,8 +7,10 @@ import lombok.*;
 
 @Getter
 @Setter
-public class LogPinsDto {
-    @JsonProperty("pinIndex")
+public class DayPinsDto {
+    private Long id;
+
+    @JsonProperty("index")
     private Integer index;
 
     private Double lat;
@@ -16,10 +18,11 @@ public class LogPinsDto {
 
     private String pinType;
 
-    public LogPinsDto(Pin pin) {
+    public DayPinsDto(Pin pin) {
+        this.id = pin.getId();
         this.index = pin.getIndex();
         this.lat = pin.getLat();
         this.lng = pin.getLng();
-        this.pinType = pin.getPinType().getIcon();
+        this.pinType = pin.getPinType().getName();
     }
 }

@@ -19,13 +19,10 @@ public class AllLogDto {
     @JsonProperty("days")
     private List<LogDaysDto> days;
 
-    public AllLogDto(Log log) {
+    public AllLogDto(Log log, List<LogDaysDto> days) {
         this.id = log.getId();
         this.title = log.getTitle();
         this.key = log.getKey();
-        this.days = log.getDays().stream()
-                .sorted((d1,d2) -> Integer.compare(d1.getIndex(), d2.getIndex()))
-                .map(LogDaysDto::new)
-                .collect(Collectors.toList());
+        this.days = days;
     }
 }

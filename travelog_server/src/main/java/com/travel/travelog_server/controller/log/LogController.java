@@ -18,10 +18,11 @@ public class LogController {
     public ResponseEntity<AllLogDto> getLogsByKey(@RequestParam String key) {
         return ResponseEntity.ok().body(logService.getLogByKey(key));
     }
-//    @GetMapping("")
-//    public ResponseEntity<List<AllLogDto>> getAllLogs() {
-//        return ResponseEntity.ok().body(logService.getLogWithDaysAndPins());
-//    }
+
+    @GetMapping("/print/{logId}")
+    public ResponseEntity<GetPrintLogByIdDto> getPrintLogById(@PathVariable Long logId) {
+        return ResponseEntity.ok().body(logService.getPrintLogById(logId));
+    }
 
     @GetMapping("/{logId}")
     public ResponseEntity<GetLogByIdDto> getLogById(@PathVariable Long logId) {
@@ -34,6 +35,13 @@ public class LogController {
         return ResponseEntity.ok().body(deleteLogDto);
     }
 
+    @PatchMapping("/{logId}")
+    public ResponseEntity<Void> updateLog(@PathVariable Long logId, @Valid @RequestBody UpdateLogBodyDto updateLogBodyDto) {
+        logService.updateLog(logId, updateLogBodyDto);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("")
     public ResponseEntity<CreateLogDto> createLog(@Valid @RequestBody CreateLogBodyDto createLogBodyDto) {
         CreateLogDto createLogDto = logService.createLog(createLogBodyDto);
@@ -42,9 +50,9 @@ public class LogController {
     }
 
     @PostMapping("/key")
-    public ResponseEntity<Void> checkKey(@Valid @RequestBody CheckKeyDto checkKeyDto) {
-        logService.checkKey(checkKeyDto);
+    public ResponseEntity<CheckKeyDto> checkKey(@Valid @RequestBody CheckKeyBodyDto checkKeyBodyDto) {
+        CheckKeyDto checkKeyDto =  logService.checkKey(checkKeyBodyDto);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(checkKeyDto);
     }
 }
